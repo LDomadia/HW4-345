@@ -28,6 +28,7 @@ if (process.env.NODE_ENV != 'test')
 		//await listBranches(userId, "your repo");
 		await listBranches(userId, "HW4-345");
 		//await createRepo(userId,newrepo);
+		await createRepo(userId, "SSW345-newrepo");
 		//await createIssue(userId, repo, issue);
 		await createIssue(userId, "HW4-345", "Issue 1", "This is an issue");
 		//await enableWikiSupport(userId,repo);
@@ -127,13 +128,16 @@ async function listBranches(owner,repo)
 // 2. Write code to create a new repo
 async function createRepo(owner,repo)
 {
-	let options = getDefaultOptions("/", "POST");
+	let options = getDefaultOptions(`/user/repos`, "POST");
+	options.json = {
+		name: repo
+	}
 
 	// Send a http request to url and specify a callback that will be called upon its return.
 	return new Promise(function(resolve, reject)
 	{
 		request(options, function (error, response, body) {
-
+			
 			resolve( response.statusCode );
 
 		});
@@ -157,7 +161,7 @@ async function createIssue(owner,repo, issueName, issueBody)
 				return; // Terminate execution.
 			}
 
-			
+
 
 			// console.debug( options );
 			resolve( JSON.parse(body) );
