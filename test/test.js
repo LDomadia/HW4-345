@@ -21,14 +21,14 @@ describe("GitHub EndPoint Tests", function() {
         
       let user  = await github.getUser();
       let repos = await github.listBranches(user,"HW4-345");
-      expect(repos).to.be.an('array').that.have.nested.property("[0].name").equals("master");
+      expect(repos).to.be.an('array').that.have.nested.property("[1].name").equals("master");
 
     });
 
     it("createRepo successfully creates repo", async function() {
         
       let user  = await github.getUser();
-      let status = await github.createRepo(user, "test-HW4-345");
+      let status = await github.createRepo(user, "test3-HW4-345");
       expect(status).to.equal(201);
 
     });

@@ -28,7 +28,7 @@ if (process.env.NODE_ENV != 'test')
 		//await listBranches(userId, "your repo");
 		await listBranches(userId, "HW4-345");
 		//await createRepo(userId,newrepo);
-		await createRepo(userId, "SSW345-newrepo");
+		await createRepo(userId, "SSW345-repoB");
 		//await createIssue(userId, repo, issue);
 		await createIssue(userId, "HW4-345", "Issue 1", "This is an issue");
 		//await enableWikiSupport(userId,repo);
@@ -98,6 +98,12 @@ function listAuthenicatedUserRepos()
 async function listBranches(owner,repo)
 {
 	let options = getDefaultOptions(`/repos/${owner}/${repo}/branches`, "GET");
+	/*
+	options.json = {
+		owner: `${owner}`,
+		repo: `${repo}`
+	}
+	*/
 
 	// Send a http request to url and specify a callback that will be called upon its return.
 	return new Promise(function(resolve, reject)
@@ -130,13 +136,20 @@ async function createRepo(owner,repo)
 {
 	let options = getDefaultOptions(`/user/repos`, "POST");
 	options.json = {
-		name: repo
+		name: `${repo}`
 	}
 
 	// Send a http request to url and specify a callback that will be called upon its return.
 	return new Promise(function(resolve, reject)
 	{
 		request(options, function (error, response, body) {
+
+			if( error )
+			{
+				console.log( chalk.red( error ));
+				reject(error);
+				return; // Terminate execution.
+			}
 			
 			resolve( response.statusCode );
 
@@ -147,7 +160,11 @@ async function createRepo(owner,repo)
 // 3. Write code for creating an issue for an existing repo.
 async function createIssue(owner,repo, issueName, issueBody)
 {
-	let options = getDefaultOptions(`/repo/${owner}/${repo}/issues`, "POST");
+	let options = getDefaultOptions(`/repos/${owner}/${repo}/issues`, "POST");
+	options.json = {
+		title: `${issueName}`,
+		body: `${issueBody}`
+	}
 
 	// Send a http request to url and specify a callback that will be called upon its return.
 	return new Promise(function(resolve, reject)
@@ -161,11 +178,7 @@ async function createIssue(owner,repo, issueName, issueBody)
 				return; // Terminate execution.
 			}
 
-
-
 			// console.debug( options );
-			resolve( JSON.parse(body) );
-
 			resolve( response.statusCode );
 
 		});
