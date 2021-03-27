@@ -32,6 +32,7 @@ if (process.env.NODE_ENV != 'test')
 		//await createIssue(userId, repo, issue);
 		await createIssue(userId, "HW4-345", "Issue 1", "This is an issue");
 		//await enableWikiSupport(userId,repo);
+		await enableWikiSupport(userId, "HW-345");
 
 	})()
 }
@@ -98,12 +99,6 @@ function listAuthenicatedUserRepos()
 async function listBranches(owner,repo)
 {
 	let options = getDefaultOptions(`/repos/${owner}/${repo}/branches`, "GET");
-	/*
-	options.json = {
-		owner: `${owner}`,
-		repo: `${repo}`
-	}
-	*/
 
 	// Send a http request to url and specify a callback that will be called upon its return.
 	return new Promise(function(resolve, reject)
@@ -143,7 +138,7 @@ async function createRepo(owner,repo)
 	return new Promise(function(resolve, reject)
 	{
 		request(options, function (error, response, body) {
-
+			
 			if( error )
 			{
 				console.log( chalk.red( error ));
@@ -151,6 +146,13 @@ async function createRepo(owner,repo)
 				return; // Terminate execution.
 			}
 			
+			if(response.statusCode != 201)
+			{
+				console.log( chalk.red( error ));
+				reject(error);
+				return; // Terminate execution.
+			}
+		
 			resolve( response.statusCode );
 
 		});
@@ -188,14 +190,19 @@ async function createIssue(owner,repo, issueName, issueBody)
 // 4. Write code for editing a repo to enable wiki support.
 async function enableWikiSupport(owner,repo)
 {
-	let options = getDefaultOptions("/", "PATCH");
-
+	let options = getDefaultOptions(`/repos/${owner}/${repo}`, "PATCH");
+	options.json = {
+		owner: `${owner}`,
+		repo: `${repo}`,
+		has_wiki: true
+	}
 	// Send a http request to url and specify a callback that will be called upon its return.
 	return new Promise(function(resolve, reject)
 	{
 		request(options, function (error, response, body) {
 
-			resolve( JSON.parse(body) );
+			//resolve( JSON.parse(body) );
+			resolve(response.statusCode);
 		});
 	});	
 }
