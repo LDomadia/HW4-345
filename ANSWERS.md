@@ -6,3 +6,7 @@ This was by far the most difficult homework assignment I have had in this semest
 
 ### Things I Learned
 * `curl` statements work on Windows in Command Prompt, not in Powershell
+
+### REST Client
+test.js passing:
+![REST_Client](REST_Client.jpg)

@@ -28,7 +28,7 @@ if (process.env.NODE_ENV != 'test')
 		//await listBranches(userId, "your repo");
 		await listBranches(userId, "HW4-345");
 		//await createRepo(userId,newrepo);
-		await createRepo(userId, "SSW345-repoB");
+		await createRepo(userId, "SSW345-repoC");
 		//await createIssue(userId, repo, issue);
 		await createIssue(userId, "HW4-345", "Issue 1", "This is an issue");
 		//await enableWikiSupport(userId,repo);
@@ -145,14 +145,15 @@ async function createRepo(owner,repo)
 				reject(error);
 				return; // Terminate execution.
 			}
-			
+			/*
 			if(response.statusCode != 201)
 			{
 				console.log( chalk.red( error ));
 				reject(error);
 				return; // Terminate execution.
 			}
-		
+			*/
+			//console.log(response.statusCode);
 			resolve( response.statusCode );
 
 		});
@@ -192,8 +193,6 @@ async function enableWikiSupport(owner,repo)
 {
 	let options = getDefaultOptions(`/repos/${owner}/${repo}`, "PATCH");
 	options.json = {
-		owner: `${owner}`,
-		repo: `${repo}`,
 		has_wiki: true
 	}
 	// Send a http request to url and specify a callback that will be called upon its return.
@@ -202,7 +201,8 @@ async function enableWikiSupport(owner,repo)
 		request(options, function (error, response, body) {
 
 			//resolve( JSON.parse(body) );
-			resolve(response.statusCode);
+			resolve(body);
+			//resolve(response.statusCode);
 		});
 	});	
 }
