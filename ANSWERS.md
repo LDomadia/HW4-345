@@ -19,6 +19,12 @@ After that, I was able to get the correct outputs in Command Prompt.
 
 ### REST Client
 test.js passing:
+
+
+
+
+
+
 ![REST_Client](REST_Client.jpg)
 
 ### REST Server
