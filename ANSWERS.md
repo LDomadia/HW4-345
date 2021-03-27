@@ -10,3 +10,7 @@ This was by far the most difficult homework assignment I have had in this semest
 ### REST Client
 test.js passing:
 ![REST_Client](REST_Client.jpg)
+
+### REST Server
+command outputs:
+![REST_Server](REST_Server.jpg)
